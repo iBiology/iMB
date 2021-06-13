@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>iMerriam Webster</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'note/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="py-5 text-center"><i>XUAN's</i> Merriam-Webster Dictionary</h1>
+    {% block search %}
+    <div class="row my-3">
+        <div class="col-md-8 offset-md-2">
+            <form action="{% url 'note:search' %}" method="GET" value="{{ request.GET.q }}">
+                <label for="searchInput" class="row form-label visually-hidden">Search</label>
+                <input type="text" class="form-control rounded-pill" name="q" value="{{ request.GET.q }}"
+                       id="searchInput" placeholder="Search a word">
+                <input type="submit" value="OK">
+            </form>
+        </div>
+    </div>
+    {% endblock search %}
+
+    {% block query %}
+    {% endblock query %}
+
+    {% block latest %}
+    {% endblock latest %}
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'note/js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>iMerriam Webster</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'note/css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="py-5 text-center"><i>XUAN's</i> Merriam-Webster Dictionary</h1>
+
+    <div class="row my-3">
+        <div class="col-md-8 offset-md-2">
+            <label for="searchInput" class="row form-label visually-hidden">Search</label>
+            <input type="text" class="form-control rounded-pill" id="searchInput" placeholder="Search a word">
+        </div>
+    </div>
+
+    <div class="card mt-5">
+        <div class="card-header">
+            <b>{{ data.word }}</b>
+            <span class="px-1">({{ data.label }})</span>
+            <span class="px-1">
+            <a href="https://media.merriam-webster.com/audio/prons/en/us/mp3/b/{{ data.audio }}.mp3"
+               onclick="playAudio(event, this)"><i class="fas fa-volume-up ml-3"></i></a>
+            </span>
+            <span class="px-1"><i class="far fa-heart"></i></span>
+        </div>
+        <div class="card-body">
+            {% for sense in data.senses %}
+                <p class="card-text">{{ sense }}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card mt-5">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <b>Recent Words</b>
+                </div>
+                <div class="col-md-1 ms-auto">
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            More
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Past 2 weeks</a></li>
+                            <li><a class="dropdown-item" href="#">Past 3 weeks</a></li>
+                            <li><a class="dropdown-item" href="#">Past 4 weeks</a></li>
+                            <li><a class="dropdown-item" href="#">Past 8 weeks</a></li>
+                            <li><a class="dropdown-item" href="#">Past 12 weeks</a></li>
+                            <li><a class="dropdown-item" href="#">All</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {% for word in today_words %}
+            <div class="badge rounded-pill bg-success">
+            <a class="px-1" href="#">{{ word.word }}</a>
+            <a class="px-1" href="https://media.merriam-webster.com/audio/prons/en/us/mp3/b/{{ word.audio }}.mp3"
+               onclick="playAudio(event, this)"><i class="fas fa-volume-up ml-3"></i></a>
+            <a class="px-1" href="#"><i class="far fa-times-circle"></i></a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'note/js/main.js' %}"></script>
+</body>
+</html>

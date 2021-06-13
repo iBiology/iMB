@@ -1,0 +1,70 @@
+{% extends "note/base.html" %}
+
+
+{% block query %}
+    {% if query.error %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div>
+                Unable to get explanations of {{ query.word }}, make sure you spell the word correct.
+            </div>
+        </div>
+    {% else %}
+        <div class="card mt-5">
+            <div class="card-header">
+                <b>{{ query.word }}</b>
+                <span class="px-1">({{ query.label }})</span>
+                <span class="px-1">
+            <a href="https://media.merriam-webster.com/audio/prons/en/us/mp3/{{ query.directory }}/{{ query.audio }}.mp3"
+               onclick="playAudio(event, this)"><i class="fas fa-volume-up ml-3"></i></a>
+            </span>
+                <span class="px-1"><i class="far fa-heart"></i></span>
+            </div>
+            <div class="card-body">
+                {% for sense in query.senses %}
+                    <p class="card-text">{{ sense }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock query %}
+
+{% block latest %}
+    <div class="card mt-5">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <b>Recent Words</b>
+                </div>
+                <div class="col-md-1 ms-auto">
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            More
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="{% url 'note:query' query.word 14 %}">Past 2 weeks</a></li>
+                            <li><a class="dropdown-item" href="{% url 'note:query' query.word 21 %}">Past 3 weeks</a></li>
+                            <li><a class="dropdown-item" href="{% url 'note:query' query.word 28 %}">Past 4 weeks</a></li>
+                            <li><a class="dropdown-item" href="{% url 'note:query' query.word 56 %}">Past 8 weeks</a></li>
+                            <li><a class="dropdown-item" href="{% url 'note:query' query.word 84 %}">Past 12 weeks</a></li>
+                            <li><a class="dropdown-item" href="{% url 'note:query' query.word 0 %}">All</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {% for word in words %}
+                <div class="badge rounded-pill bg-success">
+                    <a class="px-1" href="#">{{ word.word }}</a>
+                    <a class="px-1" href="https://media.merriam-webster.com/audio/prons/en/us/mp3/b/{{ word.audio }}.mp3"
+                       onclick="playAudio()"><i class="fas fa-volume-up ml-3"></i></a>
+                    <a class="px-1" href="{% url 'note:favorite' word.word %}" onclick="favoriteWord()"><i
+                            class="far fa-times-circle"></i></a>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock latest %}
